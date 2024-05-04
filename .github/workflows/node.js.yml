@@ -1,0 +1,28 @@
+name: Node Continuous Integration
+
+on:
+  pull_request:
+    branches: [ main ]  # Updated from 'master' to 'main'
+  push:
+    branches: [ main ]  # Ensures the workflow also runs on push to 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install Dependencies
+      run: npm install
+    - name: Run Tests
+      run: npm test
+    - name: Build
+      run: npm run build
