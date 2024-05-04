@@ -10,4 +10,4 @@ app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
 
-module.exports = app;  // For testing purposes: v3
+module.exports = app;  // For testing purposes: v5
