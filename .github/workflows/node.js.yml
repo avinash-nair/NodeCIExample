@@ -12,19 +12,29 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x]  # Updated Node versions to support latest features and security updates
+        node-version: [14.x, 16.x]  # Use stable Node.js versions that are actively supported
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        # Include registry setup if you are using private packages
+        # registry-url: 'https://registry.npmjs.org/'
 
     - name: Install Dependencies
-      run: npm install
+      run: |
+        npm install
+        npm install -g npm@latest  # Ensure the latest npm is used
+
+    - name: Check Versions
+      run: |
+        node -v
+        npm -v
 
     - name: Run Tests
       run: npm test
