@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node app.js",
-    "test": "mocha test.js"
+    "test": "mocha test.js",
+    "build": "echo 'No build step required'"
   },
   "dependencies": {
     "express": "^4.19.2"
