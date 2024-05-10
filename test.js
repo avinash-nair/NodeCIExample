@@ -1,20 +1,25 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('./app');  // Adjust path as necessary
+const app = require('./app');  // Ensure this path correctly points to your Express app
 
 chai.use(chaiHttp);
 const expect = chai.expect;
 
 describe('GET /', function () {
   let server;
+  let port = process.env.TEST_PORT || 3000; // Use the environment variable or default to 3000
 
   beforeEach(function (done) {
-    const port = process.env.TEST_PORT || 3000; // Use a different port for testing if specified
     server = app.listen(port, done);
   });
 
   afterEach(function (done) {
-    server.close(done);
+    // Check if the server is running before trying to close it
+    if (server.listening) {
+      server.close(done);
+    } else {
+      done(); // If the server is not running, just complete the hook without doing anything
+    }
   });
 
   it('should return Hello World', function (done) {
