@@ -51,7 +51,7 @@ jobs:
       with:
         args: >
           -Dsonar.projectKey=avinash-nair_NodeCIExample
-          -Dsonar.organization=your_organization_key_here  # Add your SonarCloud organization key
+          -Dsonar.organization=your_organization_key_here
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
