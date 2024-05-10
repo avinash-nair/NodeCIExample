@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x]  # Use stable Node.js versions that are actively supported
+        node-version: [16.x, 18.x]  # Updated to include Node.js 18.x for better npm compatibility
 
     steps:
     - name: Checkout Code
@@ -23,17 +23,17 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        # Include registry setup if you are using private packages
+        # Optionally specify the registry if you're using private packages
         # registry-url: 'https://registry.npmjs.org/'
 
     - name: Install Dependencies
-      run: |
-        npm install
-        npm install -g npm@latest  # Ensure the latest npm is used
+      run: npm install  # Just install dependencies without modifying global npm
 
     - name: Check Versions
       run: |
+        echo "Node.js version:"
         node -v
+        echo "NPM version:"
         npm -v
 
     - name: Run Tests
