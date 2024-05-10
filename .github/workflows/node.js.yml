@@ -1,6 +1,8 @@
 name: Node Continuous Integration
 
 on:
+  pull_request:
+    branches: [ main ]
   push:
     branches: [ main ]
 
@@ -10,28 +12,16 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x]
+        node-version: ['20.x']  # Updated to use the latest stable version
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3  # Updated to latest version
 
     - name: Setup Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3  # Ensure using the latest action version
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'  # This line enables npm's built-in caching mechanism
-
-    - name: Check for package-lock.json
-      run: |
-        if [ ! -f package-lock.json ]; then
-          echo "package-lock.json not found, running npm install to generate one"
-          npm install
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          git add package-lock.json
-          git commit -m "Add generated package-lock.json"
-          git push
-        fi
+        cache: 'npm'
 
     - name: Install Dependencies
       run: npm install
@@ -39,7 +29,7 @@ jobs:
     - name: Run Tests
       run: npm test
       env:
-        CI: true  # Ensures that npm test knows it's running in a CI environment
+        CI: true
 
     - name: Build
       run: npm run build
