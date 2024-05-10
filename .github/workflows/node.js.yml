@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x]  # Updated to include Node.js 18.x for better npm compatibility
+        node-version: [16.x, 18.x]  # Ensure compatibility and use latest Node.js features
 
     steps:
     - name: Checkout Code
@@ -23,11 +23,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        # Optionally specify the registry if you're using private packages
-        # registry-url: 'https://registry.npmjs.org/'
 
     - name: Install Dependencies
-      run: npm install  # Just install dependencies without modifying global npm
+      run: npm install
 
     - name: Check Versions
       run: |
@@ -53,6 +51,7 @@ jobs:
       with:
         args: >
           -Dsonar.projectKey=avinash-nair_NodeCIExample
+          -Dsonar.organization=your_organization_key_here  # Add your SonarCloud organization key
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
