@@ -14,10 +14,23 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
       with:
-        fetch-depth: 0  # Fetch all history to ensure all files are included
+        fetch-depth: '0'  # Fetch all history to ensure all files are included
 
     - name: List directory contents
-      run: ls -la  # List all files in the directory to confirm presence of the lock file
+      run: |
+        ls -la
+        echo "Checking for package-lock.json:"
+        if [ -f package-lock.json ]; then
+          echo "package-lock.json is present"
+        else
+          echo "package-lock.json is missing"
+        fi
+        echo "Checking for yarn.lock:"
+        if [ -f yarn.lock ]; then
+          echo "yarn.lock is present"
+        else
+          echo "yarn.lock is missing"
+        fi
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -26,10 +39,10 @@ jobs:
         cache: 'npm'
 
     - name: Install Dependencies
-      run: npm install  # This step will use the lock file if present
+      run: npm install
 
     - name: Run Tests
-      run: npm test  # Execute tests
+      run: npm test
 
     - name: Build
-      run: npm run build  # Build your application
+      run: npm run build
