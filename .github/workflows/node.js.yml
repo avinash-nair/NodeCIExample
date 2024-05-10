@@ -13,9 +13,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all history to ensure all files are included
 
     - name: List directory contents
-      run: ls -la
+      run: ls -la  # List all files in the directory to confirm presence of the lock file
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -24,10 +26,10 @@ jobs:
         cache: 'npm'
 
     - name: Install Dependencies
-      run: npm install
+      run: npm install  # This step will use the lock file if present
 
     - name: Run Tests
-      run: npm test
+      run: npm test  # Execute tests
 
     - name: Build
-      run: npm run build
+      run: npm run build  # Build your application
