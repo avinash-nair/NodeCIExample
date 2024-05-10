@@ -10,17 +10,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: ['20.x']  # Updated to use the latest stable version
-
     steps:
-    - uses: actions/checkout@v3  # Updated to latest version
+    - uses: actions/checkout@v3
 
     - name: Setup Node.js
-      uses: actions/setup-node@v3  # Ensure using the latest action version
+      uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '20.x'
         cache: 'npm'
 
     - name: Install Dependencies
