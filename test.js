@@ -1,29 +1,29 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('./app'); // Make sure this exports an Express app instance
+const app = require('./app');  // Adjust path as necessary
+
 chai.use(chaiHttp);
-chai.should();
+const expect = chai.expect;
 
-describe('GET /', () => {
-    let server;
+describe('GET /', function () {
+  let server;
 
-    // Start the server before running any tests
-    before(done => {
-        server = app.listen(3000, done); // Start your server on a free port (avoid hardcoding if possible in real scenarios)
-    });
+  beforeEach(function (done) {
+    const port = process.env.TEST_PORT || 3000; // Use a different port for testing if specified
+    server = app.listen(port, done);
+  });
 
-    // Stop the server after all tests are done
-    after(done => {
-        server.close(done);
-    });
+  afterEach(function (done) {
+    server.close(done);
+  });
 
-    it('should return Hello World', done => {
-        chai.request(server) // Use the server instance instead of 'app'
-            .get('/')
-            .end((err, res) => {
-                res.should.have.status(200);
-                res.text.should.be.eql('Hello World!');
-                done();
-            });
-    });
+  it('should return Hello World', function (done) {
+    chai.request(server)
+        .get('/')
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.text).to.equal('Hello World!');
+          done();
+        });
+  });
 });
